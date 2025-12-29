@@ -1,4 +1,4 @@
-<img width="644" height="1216" alt="image" src="https://github.com/user-attachments/assets/c89e56d2-09da-4344-9696-b3d1f7d4caee" /><img width="566" height="1107" alt="image" src="https://github.com/user-attachments/assets/993a614c-e074-45fa-85a4-ad05caf51bf1" /># Практическая работа №9
+# Практическая работа №9
 
 **Тема:** Проектирование приложения в парадигме Clean Architecture. Use-case диаграмма, декомпозиция на слои (presentation/domain/data) и реализация каркаса приложения.
 
