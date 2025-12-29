@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:gravity="center_horizontal"
+    android:background="#F5F9F5"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Succuforest 🌵"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="#2E7D32"
+        android:layout_marginBottom="24dp"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        app:contentPadding="16dp">
+
+        <TextView
+            android:id="@+id/tvInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Добро пожаловать!"
+            android:textSize="16sp"
+            android:textColor="#424242"
+            android:gravity="center"/>
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Войти в аккаунт"
+        android:backgroundTint="#4CAF50"
+        android:layout_marginBottom="12dp"/>
+
+    <Button
+        android:id="@+id/btnList"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Каталог растений"
+        android:backgroundTint="#4CAF50"
+        android:layout_marginBottom="20dp"/>
+
+    <!-- Блок поиска по ID -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="12dp">
+
+        <!-- Поле для ввода ID -->
+        <EditText
+            android:id="@+id/etSucculentId"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="ID (1-3)"
+            android:inputType="number"
+            android:gravity="center"
+            android:background="@android:drawable/edit_text"
+            android:minHeight="48dp"/>
+
+        <Button
+            android:id="@+id/btnDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="Найти по ID"
+            android:backgroundTint="#4CAF50"
+            android:layout_marginLeft="8dp"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnPredict"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Определить по фото (AI)"
+        android:backgroundTint="#2E7D32"
+        android:layout_marginTop="10dp"/>
+
+</LinearLayout>
