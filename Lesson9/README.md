@@ -55,7 +55,7 @@
 
 ![Ввод данных](https://s2.radikal.cloud/2025/12/29/imagee563b4630681c614.png)
 ![Сохранение данных](https://s3.radikal.cloud/2025/12/29/image5519186138f56c57.png)
-![Просмотр данных]([https://iimg.su/i/OzYno6](https://s2.radikal.cloud/2025/12/29/image1925821c0116a7be.png))
+![Просмотр данных](https://s2.radikal.cloud/2025/12/29/image1925821c0116a7be.png)
 
 ### Часть 2. Индивидуальный проект (Succuforest)
 Был создан проект `ru.mirea.khasanova.succuforest`, служащий каркасом для будущего интернет-магазина.
