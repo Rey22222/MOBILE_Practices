@@ -11,6 +11,6 @@ public class GetSucculentDetailsUseCase {
     }
 
     public Succulent execute(int id) {
-        return repository.getSucculentById(id);
+        return repository.getById(id);
     }
 }

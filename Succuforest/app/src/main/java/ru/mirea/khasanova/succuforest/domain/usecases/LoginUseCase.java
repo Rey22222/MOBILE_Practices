@@ -1,15 +1,19 @@
 package ru.mirea.khasanova.succuforest.domain.usecases;
 
-import ru.mirea.khasanova.succuforest.domain.repository.SucculentRepository;
+import ru.mirea.khasanova.succuforest.domain.repository.AuthRepository;
 
 public class LoginUseCase {
-    private SucculentRepository repository;
+    private final AuthRepository repository;
 
-    public LoginUseCase(SucculentRepository repository) {
+    public LoginUseCase(AuthRepository repository) {
         this.repository = repository;
     }
 
-    public String execute() {
-        return repository.login("guest", "1234");
+    public void login(String email, String pass, AuthRepository.Callback cb) {
+        repository.login(email, pass, cb);
+    }
+
+    public void register(String email, String pass, AuthRepository.Callback cb) {
+        repository.register(email, pass, cb);
     }
 }

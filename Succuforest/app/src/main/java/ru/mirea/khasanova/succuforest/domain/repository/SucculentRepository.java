@@ -4,8 +4,10 @@ import java.util.List;
 import ru.mirea.khasanova.succuforest.domain.models.Succulent;
 
 public interface SucculentRepository {
-    String login(String email, String password);
-    List<Succulent> getSucculents();
-    Succulent getSucculentById(int id);
+    List<Succulent> getCatalog();
+    List<Succulent> getFavorites();
+    Succulent getById(int id);
+    void toggleFavorite(int id);
+
     String predictSucculentType();
 }
