@@ -1,4 +1,4 @@
-package ru.mirea.khasanova.Lesson9.domain.model;
+package ru.mirea.khasanova.Lesson10.domain.model;
 
 public class Movie {
     private int id;
