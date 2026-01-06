@@ -1,9 +1,9 @@
-package ru.mirea.khasanova.Lesson9.data.repository;
+package ru.mirea.khasanova.Lesson10.data.repository;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import ru.mirea.khasanova.Lesson9.domain.model.Movie;
-import ru.mirea.khasanova.Lesson9.domain.repository.MovieRepository;
+import ru.mirea.khasanova.Lesson10.domain.model.Movie;
+import ru.mirea.khasanova.Lesson10.domain.repository.MovieRepository;
 
 public class MovieRepositoryImpl implements MovieRepository {
 

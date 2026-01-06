@@ -1,4 +1,4 @@
-package ru.mirea.khasanova.Lesson9;
+package ru.mirea.khasanova.Lesson10;
 
 import org.junit.Test;
 

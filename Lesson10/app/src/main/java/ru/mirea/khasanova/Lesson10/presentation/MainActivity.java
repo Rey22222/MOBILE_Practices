@@ -1,4 +1,4 @@
-package ru.mirea.khasanova.Lesson9;
+package ru.mirea.khasanova.Lesson10;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,10 +8,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import ru.mirea.khasanova.Lesson9.data.repository.MovieRepositoryImpl;
-import ru.mirea.khasanova.Lesson9.domain.model.Movie;
-import ru.mirea.khasanova.Lesson9.domain.usecase.GetFavoriteMovieUseCase;
-import ru.mirea.khasanova.Lesson9.domain.usecase.SaveMovieToFavoriteUseCase;
+import ru.mirea.khasanova.Lesson10.data.repository.MovieRepositoryImpl;
+import ru.mirea.khasanova.Lesson10.domain.model.Movie;
+import ru.mirea.khasanova.Lesson10.domain.usecase.GetFavoriteMovieUseCase;
+import ru.mirea.khasanova.Lesson10.domain.usecase.SaveMovieToFavoriteUseCase;
 
 public class MainActivity extends AppCompatActivity {
 
