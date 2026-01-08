@@ -13,6 +13,7 @@ public class MainViewModel extends ViewModel {
 
     private MovieRepository movieRepository;
     private MutableLiveData<String> resultLive = new MutableLiveData<>();
+
     public LiveData<String> getResultLive() {
         return resultLive;
     }
