@@ -5,38 +5,41 @@ import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import ru.mirea.khasanova.succuforest.R;
 import ru.mirea.khasanova.succuforest.data.repository.AuthRepositoryImpl;
 import ru.mirea.khasanova.succuforest.data.storage.prefs.ClientPrefs;
-import ru.mirea.khasanova.succuforest.domain.repository.AuthRepository;
-import ru.mirea.khasanova.succuforest.domain.usecases.LoginUseCase;
-import ru.mirea.khasanova.succuforest.R;
 
 public class LoginActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        LoginUseCase useCase = new LoginUseCase(new AuthRepositoryImpl(new ClientPrefs(this)));
-        EditText email = findViewById(R.id.etEmail);
-        EditText pass = findViewById(R.id.etPassword);
+        LoginViewModel vm = new ViewModelProvider(this, new SuccuViewModelFactory(this))
+                .get(LoginViewModel.class);
 
-        findViewById(R.id.btnLogin).setOnClickListener(v ->
-                useCase.login(email.getText().toString(), pass.getText().toString(), new AuthRepository.Callback() {
-                    @Override public void onSuccess() { navToMain(); }
-                    @Override public void onError(String msg) { showToast(msg); }
-                }));
+        EditText etEmail = findViewById(R.id.etEmail);
+        EditText etPassword = findViewById(R.id.etPassword);
 
-        findViewById(R.id.btnRegister).setOnClickListener(v ->
-                useCase.register(email.getText().toString(), pass.getText().toString(), new AuthRepository.Callback() {
-                    @Override public void onSuccess() { navToMain(); }
-                    @Override public void onError(String msg) { showToast(msg); }
-                }));
+        vm.getLoginSuccess().observe(this, success -> {
+            if (success) {
+                Intent intent = new Intent(this, RootActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        vm.getErrorMessage().observe(this, msg -> {
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        });
+
+        findViewById(R.id.btnLogin).setOnClickListener(v -> {
+            vm.login(etEmail.getText().toString().trim(), etPassword.getText().toString().trim());
+        });
+
+        findViewById(R.id.btnRegister).setOnClickListener(v -> {
+        });
     }
-
-    private void navToMain() {
-        startActivity(new Intent(this, RootActivity.class));
-        finish();
-    }
-    private void showToast(String msg) { Toast.makeText(this, msg, Toast.LENGTH_SHORT).show(); }
 }

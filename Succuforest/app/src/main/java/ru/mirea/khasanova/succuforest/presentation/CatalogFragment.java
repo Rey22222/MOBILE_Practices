@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import ru.mirea.khasanova.succuforest.R;
@@ -19,10 +20,13 @@ public class CatalogFragment extends Fragment {
         RecyclerView rv = view.findViewById(R.id.recyclerView);
         rv.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
-        GetSucculentCatalogUseCase useCase = new GetSucculentCatalogUseCase(new SucculentRepositoryImpl(
-                new ru.mirea.khasanova.data.network.MockNetworkApi(), AppDatabase.getInstance(requireContext()).dao()));
+        CatalogViewModel vm = new ViewModelProvider(this, new SuccuViewModelFactory(requireContext()))
+                .get(CatalogViewModel.class);
 
-        rv.setAdapter(new SucculentAdapter(useCase.getCatalog(), requireContext()));
+        vm.getSucculents().observe(getViewLifecycleOwner(), list -> {
+            rv.setAdapter(new SucculentAdapter(list, getContext()));
+        });
+
         return view;
     }
 }

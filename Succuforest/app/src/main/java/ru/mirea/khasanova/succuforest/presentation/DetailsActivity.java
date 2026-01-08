@@ -6,6 +6,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.bumptech.glide.Glide;
 
 import ru.mirea.khasanova.succuforest.R;
@@ -19,34 +21,25 @@ public class DetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        SucculentRepositoryImpl repository = new SucculentRepositoryImpl(
-                new ru.mirea.khasanova.data.network.MockNetworkApi(),
-                AppDatabase.getInstance(this).dao()
-        );
 
-        GetSucculentDetailsUseCase detailsUseCase = new GetSucculentDetailsUseCase(repository);
+        DetailsViewModel vm = new ViewModelProvider(this, new SuccuViewModelFactory(this))
+                .get(DetailsViewModel.class);
 
         int id = getIntent().getIntExtra("ID", -1);
+        vm.loadDetails(id);
 
-        Succulent s = detailsUseCase.execute(id);
-
-        if (s != null) {
+        vm.getSucculent().observe(this, s -> {
+            if (s == null) return;
             ((TextView)findViewById(R.id.tvDetailName)).setText(s.getName());
             ((TextView)findViewById(R.id.tvDetailPrice)).setText(s.getPrice());
             ((TextView)findViewById(R.id.tvDetailDescription)).setText(s.getDescription());
 
             int resId = getResources().getIdentifier(s.getImageUrl(), "drawable", getPackageName());
-            if (resId == 0) resId = android.R.drawable.ic_menu_gallery;
-
-            Glide.with(this).load(resId).into((ImageView)findViewById(R.id.ivDetailImage));
+            Glide.with(this).load(resId != 0 ? resId : android.R.drawable.ic_menu_gallery).into((ImageView)findViewById(R.id.ivDetailImage));
 
             Button btn = findViewById(R.id.btnAddFavorite);
             btn.setText(s.isFavorite() ? "В избранном" : "В избранное");
-
-            btn.setOnClickListener(v -> {
-                repository.toggleFavorite(id);
-                Toast.makeText(this, "Статус обновлен!", Toast.LENGTH_SHORT).show();
-            });
-        }
+            btn.setOnClickListener(v -> vm.toggleFavorite(id));
+        });
     }
 }
