@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1074900774818",
+    "project_id": "succuforest-fc012",
+    "storage_bucket": "succuforest-fc012.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1074900774818:android:9d98783b8456ab000f0cfb",
+        "android_client_info": {
+          "package_name": "ru.mirea.khasanova.succuforest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAc_pQmHAuHmt9f-eUwztkJVTkYDz2F9Yg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

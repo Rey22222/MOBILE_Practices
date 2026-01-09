@@ -5,12 +5,15 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "succulents")
 public class SucculentEntity {
-    @PrimaryKey public int id;
+    @PrimaryKey
+    public int id;
     public String name;
     public String price;
     public String imageUrl;
     public String description;
     public boolean isFavorite;
+
+    public SucculentEntity() {}
 
     public SucculentEntity(int id, String name, String price, String imageUrl, String description, boolean isFavorite) {
         this.id = id;
@@ -20,4 +23,5 @@ public class SucculentEntity {
         this.description = description;
         this.isFavorite = isFavorite;
     }
+
 }
