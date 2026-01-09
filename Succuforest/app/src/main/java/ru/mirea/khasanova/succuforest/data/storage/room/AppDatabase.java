@@ -13,7 +13,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public static AppDatabase getInstance(Context context) {
         if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            AppDatabase.class, "succu_db") // Просто имя файла
+                            AppDatabase.class, "succu_db")
                     .allowMainThreadQueries()
                     .fallbackToDestructiveMigration()
                     .build();

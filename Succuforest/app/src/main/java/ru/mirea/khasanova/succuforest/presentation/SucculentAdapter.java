@@ -1,6 +1,7 @@
 package ru.mirea.khasanova.succuforest.presentation;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,17 +42,22 @@ public class SucculentAdapter extends RecyclerView.Adapter<SucculentAdapter.Succ
 
         holder.tvName.setText(succulent.getName());
         holder.tvPrice.setText(succulent.getPrice());
+
         int resId = context.getResources().getIdentifier(
                 succulent.getImageUrl(),
                 "drawable",
                 context.getPackageName()
         );
+
         Glide.with(context)
                 .load(resId != 0 ? resId : android.R.drawable.ic_menu_gallery)
                 .centerCrop()
                 .into(holder.ivImage);
         holder.itemView.setOnClickListener(v -> {
-            Toast.makeText(context, "Вы выбрали: " + succulent.getName(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Открываю: " + succulent.getName(), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(context, DetailsActivity.class);
+            intent.putExtra("ID", succulent.getId());
+            context.startActivity(intent);
         });
     }
 
