@@ -1,13 +1,13 @@
 package ru.mirea.khasanova.succuforest.domain.repository;
 
 import java.util.List;
+import retrofit2.Callback;
 import ru.mirea.khasanova.succuforest.domain.models.Succulent;
 
 public interface SucculentRepository {
-    List<Succulent> getCatalog();
+    void getCatalog(Callback<List<Succulent>> callback);
+    void getById(int id, Callback<Succulent> callback);
     List<Succulent> getFavorites();
-    Succulent getById(int id);
-    void toggleFavorite(int id);
-
+    void toggleFavorite(Succulent succulent);
     String predictSucculentType();
 }

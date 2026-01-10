@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,62 +18,65 @@ import java.util.List;
 import ru.mirea.khasanova.succuforest.R;
 import ru.mirea.khasanova.succuforest.domain.models.Succulent;
 
-public class SucculentAdapter extends RecyclerView.Adapter<SucculentAdapter.SuccuViewHolder> {
+public class SucculentAdapter extends RecyclerView.Adapter<SucculentAdapter.VH> {
 
-    private final List<Succulent> succulentList;
+    private List<Succulent> list;
     private final Context context;
 
-    public SucculentAdapter(List<Succulent> succulentList, Context context) {
-        this.succulentList = succulentList;
+    public SucculentAdapter(List<Succulent> list, Context context) {
+        this.list = list;
         this.context = context;
+    }
+
+    public void updateData(List<Succulent> newList) {
+        this.list = newList;
+        notifyDataSetChanged();
     }
 
     @NonNull
     @Override
-    public SuccuViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_succulent, parent, false);
-        return new SuccuViewHolder(view);
+        return new VH(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SuccuViewHolder holder, int position) {
-        Succulent succulent = succulentList.get(position);
+    public void onBindViewHolder(@NonNull VH holder, int position) {
+        Succulent s = list.get(position);
+        holder.name.setText(s.getName());
+        holder.price.setText(s.getPrice());
 
-        holder.tvName.setText(succulent.getName());
-        holder.tvPrice.setText(succulent.getPrice());
+        if (s.getImageUrl() != null && !s.getImageUrl().isEmpty()) {
+            com.squareup.picasso.Picasso.get()
+                    .load(s.getImageUrl())
+                    .placeholder(android.R.drawable.ic_menu_gallery)
+                    .error(android.R.drawable.stat_notify_error)
+                    .fit()
+                    .centerCrop()
+                    .into(holder.img);
+        }
 
-        int resId = context.getResources().getIdentifier(
-                succulent.getImageUrl(),
-                "drawable",
-                context.getPackageName()
-        );
-
-        Glide.with(context)
-                .load(resId != 0 ? resId : android.R.drawable.ic_menu_gallery)
-                .centerCrop()
-                .into(holder.ivImage);
         holder.itemView.setOnClickListener(v -> {
-            Toast.makeText(context, "Открываю: " + succulent.getName(), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context, DetailsActivity.class);
-            intent.putExtra("ID", succulent.getId());
+            intent.putExtra("ID", s.getId());
             context.startActivity(intent);
         });
     }
 
     @Override
     public int getItemCount() {
-        return succulentList != null ? succulentList.size() : 0;
+        return list != null ? list.size() : 0;
     }
 
-    public static class SuccuViewHolder extends RecyclerView.ViewHolder {
-        ImageView ivImage;
-        TextView tvName, tvPrice;
+    static class VH extends RecyclerView.ViewHolder {
+        TextView name, price;
+        ImageView img;
 
-        public SuccuViewHolder(@NonNull View itemView) {
-            super(itemView);
-            ivImage = itemView.findViewById(R.id.ivImage);
-            tvName = itemView.findViewById(R.id.tvName);
-            tvPrice = itemView.findViewById(R.id.tvPrice);
+        VH(View v) {
+            super(v);
+            name = v.findViewById(R.id.tvName);
+            price = v.findViewById(R.id.tvPrice);
+            img = v.findViewById(R.id.ivImage);
         }
     }
 }

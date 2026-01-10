@@ -25,5 +25,6 @@ public class Succulent implements Serializable {
     public String getImageUrl() { return imageUrl; }
     public String getDescription() { return description; }
     public boolean isFavorite() { return isFavorite; }
+
     public void setFavorite(boolean favorite) { isFavorite = favorite; }
 }

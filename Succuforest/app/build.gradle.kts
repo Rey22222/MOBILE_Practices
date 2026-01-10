@@ -30,17 +30,16 @@ android {
 dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.9.0"))
     implementation("com.google.firebase:firebase-auth")
-
     val room_version = "2.7.0-alpha13"
     implementation("androidx.room:room-runtime:$room_version")
     implementation("androidx.room:room-common:$room_version")
     ksp("androidx.room:room-compiler:$room_version")
-
-    // Glide
+    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+    implementation 'com.squareup.picasso:picasso:2.8'
     implementation("com.github.bumptech.glide:glide:4.16.0")
     ksp("com.github.bumptech.glide:compiler:4.16.0")
-
-    // Остальное
+    implementation 'com.squareup.retrofit2:converter-gson:2.11.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.11.0'
     implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("androidx.constraintlayout:constraintlayout:2.2.0")

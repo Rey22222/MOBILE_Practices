@@ -5,10 +5,16 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import ru.mirea.khasanova.succuforest.data.network.SucculentApiService;
 import ru.mirea.khasanova.succuforest.data.repository.AuthRepositoryImpl;
 import ru.mirea.khasanova.succuforest.data.repository.SucculentRepositoryImpl;
 import ru.mirea.khasanova.succuforest.data.storage.prefs.ClientPrefs;
 import ru.mirea.khasanova.succuforest.data.storage.room.AppDatabase;
+import ru.mirea.khasanova.succuforest.data.storage.room.SucculentDao;
+import ru.mirea.khasanova.succuforest.domain.usecases.GetSucculentCatalogUseCase;
+import ru.mirea.khasanova.succuforest.domain.usecases.GetSucculentDetailsUseCase;
 
 public class SuccuViewModelFactory implements ViewModelProvider.Factory {
     private final Context context;
@@ -23,16 +29,19 @@ public class SuccuViewModelFactory implements ViewModelProvider.Factory {
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
 
         if (modelClass.isAssignableFrom(LoginViewModel.class)) {
-            AuthRepositoryImpl authRepository = new AuthRepositoryImpl(
-                    new ClientPrefs(context)
-            );
+            AuthRepositoryImpl authRepository = new AuthRepositoryImpl(new ClientPrefs(context));
             return (T) new LoginViewModel(authRepository);
         }
 
-        SucculentRepositoryImpl succulentRepository = new SucculentRepositoryImpl(
-                new ru.mirea.khasanova.data.network.MockNetworkApi(),
-                AppDatabase.getInstance(context).dao()
-        );
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://69621edbd9d64c761906fc1b.mockapi.io/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        SucculentApiService apiService = retrofit.create(SucculentApiService.class);
+        SucculentDao dao = AppDatabase.getInstance(context).dao();
+        SucculentRepositoryImpl succulentRepository = new SucculentRepositoryImpl(apiService, dao);
+
 
         if (modelClass.isAssignableFrom(CatalogViewModel.class)) {
             return (T) new CatalogViewModel(succulentRepository);

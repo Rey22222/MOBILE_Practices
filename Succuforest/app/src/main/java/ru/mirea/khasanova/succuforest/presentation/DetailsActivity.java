@@ -7,39 +7,60 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-
-import com.bumptech.glide.Glide;
-
+import com.squareup.picasso.Picasso;
 import ru.mirea.khasanova.succuforest.R;
-import ru.mirea.khasanova.succuforest.data.repository.SucculentRepositoryImpl;
-import ru.mirea.khasanova.succuforest.data.storage.room.AppDatabase;
-import ru.mirea.khasanova.succuforest.domain.models.Succulent;
-import ru.mirea.khasanova.succuforest.domain.usecases.GetSucculentDetailsUseCase;
 
 public class DetailsActivity extends AppCompatActivity {
+
+    private DetailsViewModel viewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
-        DetailsViewModel vm = new ViewModelProvider(this, new SuccuViewModelFactory(this))
+        viewModel = new ViewModelProvider(this, new SuccuViewModelFactory(this))
                 .get(DetailsViewModel.class);
 
         int id = getIntent().getIntExtra("ID", -1);
-        vm.loadDetails(id);
 
-        vm.getSucculent().observe(this, s -> {
-            if (s == null) return;
-            ((TextView)findViewById(R.id.tvDetailName)).setText(s.getName());
-            ((TextView)findViewById(R.id.tvDetailPrice)).setText(s.getPrice());
-            ((TextView)findViewById(R.id.tvDetailDescription)).setText(s.getDescription());
+        viewModel.getSucculent().observe(this, succulent -> {
+            ((TextView)findViewById(R.id.tvDetailName)).setText(succulent.getName());
+            ((TextView)findViewById(R.id.tvDetailDescription)).setText(succulent.getDescription());
+            ((TextView)findViewById(R.id.tvDetailPrice)).setText(succulent.getPrice());
 
-            int resId = getResources().getIdentifier(s.getImageUrl(), "drawable", getPackageName());
-            Glide.with(this).load(resId != 0 ? resId : android.R.drawable.ic_menu_gallery).into((ImageView)findViewById(R.id.ivDetailImage));
+            Picasso.get()
+                    .load(succulent.getImageUrl())
+                    .placeholder(android.R.drawable.ic_menu_gallery)
+                    .error(android.R.drawable.stat_notify_error)
+                    .fit()
+                    .centerCrop()
+                    .into((ImageView)findViewById(R.id.ivDetailImage));
+        });
 
-            Button btn = findViewById(R.id.btnAddFavorite);
-            btn.setText(s.isFavorite() ? "В избранном" : "В избранное");
-            btn.setOnClickListener(v -> vm.toggleFavorite(id));
+        viewModel.getError().observe(this, errorMsg -> {
+            Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show();
+        });
+
+        if (id != -1) {
+            viewModel.loadDetails(id);
+        }
+        Button btn = findViewById(R.id.btnAddFavorite);
+        viewModel.getSucculent().observe(this, succulent -> {
+            if (succulent != null) {
+                if (succulent.isFavorite()) {
+                    btn.setText("В избранном");
+                    btn.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
+                } else {
+                    btn.setText("В избранное");
+                    btn.setBackgroundColor(getResources().getColor(R.color.sage_primary));
+                }
+
+                btn.setOnClickListener(v -> {
+                    viewModel.toggleFavorite();
+                    Toast.makeText(this, "Список избранного обновлен", Toast.LENGTH_SHORT).show();
+                });
+            }
         });
     }
 }
