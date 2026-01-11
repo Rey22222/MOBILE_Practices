@@ -8,7 +8,9 @@ plugins {
 android {
     namespace = "ru.mirea.khasanova.succuforest"
     compileSdk = 36
-
+    buildFeatures {
+        viewBinding true
+    }
     defaultConfig {
         applicationId = "ru.mirea.khasanova.succuforest"
         minSdk = 24
@@ -28,6 +30,9 @@ android {
 }
 
 dependencies {
+    def nav_version = "2.7.7"
+    implementation "androidx.navigation:navigation-fragment:$nav_version"
+    implementation "androidx.navigation:navigation-ui:$nav_version"
     implementation(platform("com.google.firebase:firebase-bom:33.9.0"))
     implementation("com.google.firebase:firebase-auth")
     val room_version = "2.7.0-alpha13"

@@ -47,7 +47,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="ID (1-3)"
+            android:hint="ID (1-12)"
             android:inputType="number"
             android:gravity="center"
             android:background="@android:drawable/edit_text"
@@ -69,5 +69,24 @@
         android:text="Определить по фото (AI)"
         android:backgroundTint="#2E7D32"
         android:layout_marginTop="10dp"/>
+    <TextView
+        android:id="@+id/tvWeatherInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Загрузка погоды..."
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="#1565C0"
+        android:gravity="center"/>
 
+    <TextView
+        android:id="@+id/tvWateringAdvice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Анализ условий..."
+        android:textSize="14sp"
+        android:textColor="#0D47A1"
+        android:gravity="center"/>
 </LinearLayout>

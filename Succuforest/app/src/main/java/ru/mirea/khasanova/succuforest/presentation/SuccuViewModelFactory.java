@@ -10,11 +10,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import ru.mirea.khasanova.succuforest.data.network.SucculentApiService;
 import ru.mirea.khasanova.succuforest.data.repository.AuthRepositoryImpl;
 import ru.mirea.khasanova.succuforest.data.repository.SucculentRepositoryImpl;
+import ru.mirea.khasanova.succuforest.data.repository.WeatherRepositoryImpl;
 import ru.mirea.khasanova.succuforest.data.storage.prefs.ClientPrefs;
 import ru.mirea.khasanova.succuforest.data.storage.room.AppDatabase;
 import ru.mirea.khasanova.succuforest.data.storage.room.SucculentDao;
-import ru.mirea.khasanova.succuforest.domain.usecases.GetSucculentCatalogUseCase;
-import ru.mirea.khasanova.succuforest.domain.usecases.GetSucculentDetailsUseCase;
+import ru.mirea.khasanova.succuforest.domain.repository.WeatherRepository;
 
 public class SuccuViewModelFactory implements ViewModelProvider.Factory {
     private final Context context;
@@ -40,15 +40,17 @@ public class SuccuViewModelFactory implements ViewModelProvider.Factory {
 
         SucculentApiService apiService = retrofit.create(SucculentApiService.class);
         SucculentDao dao = AppDatabase.getInstance(context).dao();
+
         SucculentRepositoryImpl succulentRepository = new SucculentRepositoryImpl(apiService, dao);
 
+        WeatherRepository weatherRepository = new WeatherRepositoryImpl();
 
         if (modelClass.isAssignableFrom(CatalogViewModel.class)) {
             return (T) new CatalogViewModel(succulentRepository);
         }
 
         if (modelClass.isAssignableFrom(HomeViewModel.class)) {
-            return (T) new HomeViewModel(succulentRepository);
+            return (T) new HomeViewModel(succulentRepository, weatherRepository);
         }
 
         if (modelClass.isAssignableFrom(FavoritesViewModel.class)) {

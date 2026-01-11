@@ -4,25 +4,26 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import ru.mirea.khasanova.succuforest.R;
+import ru.mirea.khasanova.succuforest.databinding.ActivityMainBinding;
 
 public class HomeFragment extends Fragment {
 
     private HomeViewModel vm;
+    private ActivityMainBinding binding;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_main, container, false);
+        binding = ActivityMainBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
@@ -32,17 +33,20 @@ public class HomeFragment extends Fragment {
         vm = new ViewModelProvider(this, new SuccuViewModelFactory(requireContext()))
                 .get(HomeViewModel.class);
 
-        EditText etId = view.findViewById(R.id.etSucculentId);
-        TextView tvInfo = view.findViewById(R.id.tvInfo);
-        Button btnDetails = view.findViewById(R.id.btnDetails);
-        Button btnPredict = view.findViewById(R.id.btnPredict);
-
         vm.getScreenStatus().observe(getViewLifecycleOwner(), text -> {
-            tvInfo.setText(text);
+            binding.tvInfo.setText(text);
         });
 
-        btnDetails.setOnClickListener(v -> {
-            String idStr = etId.getText().toString();
+        vm.getWeatherText().observe(getViewLifecycleOwner(), text -> {
+            binding.tvWeatherInfo.setText(text);
+        });
+
+        vm.getWateringAdvice().observe(getViewLifecycleOwner(), advice -> {
+            binding.tvWateringAdvice.setText(advice);
+        });
+
+        binding.btnDetails.setOnClickListener(v -> {
+            String idStr = binding.etSucculentId.getText().toString();
             if (!idStr.isEmpty()) {
                 try {
                     int id = Integer.parseInt(idStr);
@@ -51,12 +55,16 @@ public class HomeFragment extends Fragment {
                     Toast.makeText(getContext(), "Введите число", Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(getContext(), "Поле пустое", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Поле ID пустое", Toast.LENGTH_SHORT).show();
             }
         });
-
-        btnPredict.setOnClickListener(v -> {
+        binding.btnPredict.setOnClickListener(v -> {
             vm.predictType();
         });
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

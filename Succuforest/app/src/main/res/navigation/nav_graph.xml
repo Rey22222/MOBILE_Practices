@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="ru.mirea.khasanova.succuforest.presentation.HomeFragment"
+        android:label="Главная"
+        tools:layout="@layout/activity_main" />
+
+    <fragment
+        android:id="@+id/nav_catalog"
+        android:name="ru.mirea.khasanova.succuforest.presentation.CatalogFragment"
+        android:label="Каталог"
+        tools:layout="@layout/fragment_catalog" />
+
+    <fragment
+        android:id="@+id/nav_fav"
+        android:name="ru.mirea.khasanova.succuforest.presentation.FavoritesFragment"
+        android:label="Избранное"
+        tools:layout="@layout/fragment_catalog" />
+
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="ru.mirea.khasanova.succuforest.presentation.ProfileFragment"
+        android:label="Профиль"
+        tools:layout="@layout/fragment_profile" />
+
+</navigation>

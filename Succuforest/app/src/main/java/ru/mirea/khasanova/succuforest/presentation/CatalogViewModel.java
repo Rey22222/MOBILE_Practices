@@ -18,6 +18,7 @@ public class CatalogViewModel extends ViewModel {
 
     private final MutableLiveData<List<Succulent>> succulentsLiveData = new MutableLiveData<>();
     private final GetSucculentCatalogUseCase getSucculentCatalogUseCase;
+    private static final String TAG = "CatalogViewModel";
 
     public CatalogViewModel(SucculentRepositoryImpl repository) {
         this.getSucculentCatalogUseCase = new GetSucculentCatalogUseCase(repository);
@@ -29,17 +30,21 @@ public class CatalogViewModel extends ViewModel {
     }
 
     public void loadCatalog() {
+        Log.d(TAG, "loadCatalog: Запрос данных через UseCase");
         getSucculentCatalogUseCase.execute(new Callback<List<Succulent>>() {
             @Override
             public void onResponse(Call<List<Succulent>> call, Response<List<Succulent>> response) {
                 if (response.isSuccessful() && response.body() != null) {
+                    Log.d(TAG, "onResponse: Данные успешно получены, размер: " + response.body().size());
                     succulentsLiveData.setValue(response.body());
+                } else {
+                    Log.e(TAG, "onResponse: Ошибка сервера " + response.code());
                 }
             }
 
             @Override
             public void onFailure(Call<List<Succulent>> call, Throwable t) {
-                Log.e("CatalogViewModel", "Ошибка сети: " + t.getMessage());
+                Log.e(TAG, "onFailure: Критическая ошибка сети: " + t.getMessage());
             }
         });
     }

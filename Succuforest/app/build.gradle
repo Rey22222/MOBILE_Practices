@@ -8,7 +8,9 @@ plugins {
 android {
     namespace 'ru.mirea.khasanova.succuforest'
     compileSdk 36
-
+    buildFeatures {
+        viewBinding true
+    }
     defaultConfig {
         applicationId "ru.mirea.khasanova.succuforest"
         minSdk 24
@@ -36,7 +38,12 @@ android {
 }
 
 dependencies {
+    def nav_version = "2.7.7"
+    implementation "androidx.navigation:navigation-fragment:$nav_version"
+    implementation "androidx.navigation:navigation-ui:$nav_version"
     implementation "com.github.bumptech.glide:glide:4.16.0"
+    implementation libs.navigation.fragment.ktx
+    implementation libs.navigation.ui.ktx
     ksp "com.github.bumptech.glide:compiler:4.16.0"
     implementation 'com.squareup.retrofit2:retrofit:2.11.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.11.0'
